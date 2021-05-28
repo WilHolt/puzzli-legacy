@@ -1,0 +1,28 @@
+.container{
+  height: 100vh;
+  display: flex;
+  .content{
+    background: red;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+
+    .player-controllers{
+      position: absolute;
+    }
+    .player{
+        width: 100% !important;
+        height: 100% !important;
+    }
+  }
+  .sidenav{
+    width: 580px;
+    background: blue;
+
+  }
+}
+.player{
+  width: 100% !important;
+  height: 100% !important;
+}
