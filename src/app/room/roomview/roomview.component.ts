@@ -39,7 +39,13 @@ export class RoomviewComponent implements AfterViewInit {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     this.roomParams = this.ar.snapshot.params;
     this.socket.on('connectedRoom', (event) => {
-      console.log(event);
+      setTimeout( () => {
+        console.log(`meu videoTocando`, event)
+        console.log(`tempoatual`, this.currentTime);
+        this.player.load( event.nowPlaying, 1, this.currentTime);
+        // this.player.seek(this.currentTime);
+        // this.player.play();
+      }, 2000)
     })
 
     if (window.history.state && !window.history.state.owner) {
@@ -47,7 +53,7 @@ export class RoomviewComponent implements AfterViewInit {
     }
 
     const player = new YTPlayer(this.playerElement.nativeElement, {
-      videoId:'Oai8SJ4tkdo',
+      videoId: 'Oai8SJ4tkdo',
       height: '100%',
       width: '100%',
       autoplay: true,
@@ -145,7 +151,13 @@ export class RoomviewComponent implements AfterViewInit {
 
   addQueue(inputUrl) {
     console.log(inputUrl)
-    this.player.load(inputUrl)
+    console.log(this.roomParams)
+    this.socket.emit('loadVideo', { videourl: inputUrl, roomid: this.roomParams.roomid })
+    this.socket.on('videoLoaded', videoUrl => {
+      console.log(`videoLoaded`, videoUrl)
+      this.player.load(videoUrl)
+
+    })
     // console.log(inputUrl)
     // this.myplaylist.push({
     //   url: inputUrl.value,
