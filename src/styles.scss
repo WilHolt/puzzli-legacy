@@ -2,3 +2,30 @@
 body{
   margin: 0;
 }
+button,
+a.pzl-btn {
+  background: #48f077;
+  padding: 15px 20px;
+  border: none;
+  color: white;
+  width: fit-content;
+  border-radius: 8px;
+  cursor: pointer;
+}
+input {
+  // outline: #696969 solid 1px;
+  outline: none;
+  width: 100%;
+  background: #17171a;
+  border: 1px solid #292929;
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 10px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+
+  color: #424242;
+}

@@ -26,6 +26,8 @@ interface Room {
 })
 export class RoomviewComponent implements AfterViewInit {
   tapume = true;
+  isModalChangeMusicOpen = false;
+
   nowPlaying = {
     url: ``,
     done: false

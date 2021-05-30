@@ -5,8 +5,6 @@
   </div>
   <div class="sidenav">
     <div class="player-controllers">
-      <input #inputUrl type="text">
-      <button (click)="addQueue(inputUrl.value)">Adicionar Musica</button>
       <ul>
         <li *ngFor="let video of myplaylist">
           {{video.url}}
@@ -16,7 +14,15 @@
   </div>
 </div>
 <div class="footer-bar">
+  <button (click)="addQueue(inputUrl.value); inputUrl.value = '' ;isModalChangeMusicOpen = !isModalChangeMusicOpen">Tocar Musica</button>
+  <!-- <div *ngIf="isModalChangeMusicOpen" class="input-popup"> -->
+    <input style="width: 40%; margin-right: 10px;" #inputUrl type="text" placeholder="Video Url ou ID">
+  <!-- </div> -->
 
+  <div class="nowplaying">
+    <div class="thumbnail"></div>
+    <div class="info"></div>
+  </div>
 </div>
 
 
