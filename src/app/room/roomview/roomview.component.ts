@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 // import YouTubeplayer from 'youtube-player';
@@ -25,6 +25,7 @@ interface Room {
   styleUrls: ['./roomview.component.scss']
 })
 export class RoomviewComponent implements AfterViewInit {
+  tapume = true;
   nowPlaying = {
     url: ``,
     done: false
@@ -42,7 +43,8 @@ export class RoomviewComponent implements AfterViewInit {
 
   constructor(
     private socket: Socket,
-    private ar: ActivatedRoute
+    private ar: ActivatedRoute,
+    private renderer: Renderer2
   ) {
     this.myplaylist = new Array<any>();
   }
@@ -68,15 +70,24 @@ export class RoomviewComponent implements AfterViewInit {
         this.myroom = room;
         this.myclientid = clientid;
         console.log(room, clientid)
-        this.player.mute();
+        const play: HTMLElement= document.querySelector('.content');
+        console.log( this.playerElement.nativeElement)
+        play.click()
+        const doc = document.createElement('button')
+        doc.click();
+        this.playerElement.nativeElement.click();
+        const featurePolicy = this.player
+        console.log(featurePolicy)
+        // featurePolicy.allowsFeature("play()")
+
         this.player.load(room.playing, 1, room.nowPlaying.currentTime);
         // this.player.seek(room.nowPlaying.currentTime);
+        this.player.mute();
         this.player.play();
         this.player.unMute();
-    })
+      })
 
     if (window.history.state && !window.history.state.owner) {
-      this.socket.emit('connectRoom', { roomid: this.roomParams.roomid });
     }
 
     const player = new YTPlayer(this.playerElement.nativeElement, {
@@ -84,14 +95,16 @@ export class RoomviewComponent implements AfterViewInit {
       height: '100%',
       width: '100%',
       autoplay: true,
-      host: 'http://www.youtube.com',
+      host: 'https://www.youtube-nocookie.com',
       playerVars: {
         autoplay: 1,
         loop: 1,
-        mute: 1, // N.B. here the mute settings.,
+        mute:0, // N.B. here the mute settings.,
         origin: 'http://localhost:4200/'
       },
     })
+
+
     console.log(player)
     this.player = player;
     this.player.mute()
@@ -102,7 +115,12 @@ export class RoomviewComponent implements AfterViewInit {
       console.log(`videoLoaded`, room)
       this.myroom = { ...this.myroom, ...room }
       console.log(`updatedRoom`, this.myroom)
-      this.player.load(room.playing);
+      // this.player.load(room.playing);
+      this.player.mute();
+      this.player.load(room.playing, 1, 0);
+      // this.player.seek(room.nowPlaying.currentTime);
+      this.player.play();
+      this.player.unMute();
       console.log('check', this.myroom.musicowner.id, this.myclientid);
 
 
@@ -190,16 +208,16 @@ export class RoomviewComponent implements AfterViewInit {
       // this.socket.emit('updateVideo', { type: 10, currentTime, roomid: this.roomParams.roomid });
     });
     this.player.on('paused', () => {
-      console.log(`paused`)
-      console.log('currenttimepaused', this.player.getCurrentTime())
       if (this.myroom.musicowner.id == this.myclientid) {
+        console.log(`paused`)
+        console.log('currenttimepaused', this.player.getCurrentTime())
         this.socket.emit('updateVideo', { type: 2, currentTime: this.player.getCurrentTime(), roomid: this.roomParams.roomid });
 
       }
     })
     this.player.on('playing', () => {
-      console.log(`layed`)
       if (this.myroom.musicowner.id == this.myclientid) {
+      console.log(`layed`)
         this.socket.emit('updateVideo', { type: 1, currentTime: this.player.getCurrentTime(), roomid: this.roomParams.roomid });
       }
     })
@@ -212,6 +230,10 @@ export class RoomviewComponent implements AfterViewInit {
 
   }
 
+  connect(){
+    this.socket.emit('connectRoom', { roomid: this.roomParams.roomid });
+    this.tapume = false;
+  }
   // onplayerStateChange(event) {
 
   //   console.log(`event`)

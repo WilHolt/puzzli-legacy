@@ -33,3 +33,15 @@
   background: #1C1D1F;
   height: 80px;
 }
+
+.tapume{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  top: 0
+}
