@@ -15,6 +15,9 @@ interface Room {
   musicowner?: {
     id: string;
   };
+  nowPlaying: {
+    currentTime: number;
+  };
 }
 @Component({
   selector: 'app-roomview',
@@ -62,13 +65,14 @@ export class RoomviewComponent implements AfterViewInit {
     })
 
     this.socket.on('connectedRoom', ({ room, clientid }) => {
-      setTimeout(() => {
         this.myroom = room;
         this.myclientid = clientid;
-        this.player.load(room.playing, 1, this.currentTime);
-        // this.player.seek(this.currentTime);
-        // this.player.play();
-      }, 2000)
+        console.log(room, clientid)
+        this.player.mute();
+        this.player.load(room.playing, 1, room.nowPlaying.currentTime);
+        // this.player.seek(room.nowPlaying.currentTime);
+        this.player.play();
+        this.player.unMute();
     })
 
     if (window.history.state && !window.history.state.owner) {
@@ -104,8 +108,8 @@ export class RoomviewComponent implements AfterViewInit {
 
     })
 
-    this._observeVideoUpdate();
-    this.watchToNotOwner();
+      this._observeVideoUpdate();
+      this.watchToNotOwner();
 
     // this.player.on('playing', (event) => {
     //   console.log(this.player.getDuration()) // => 351.521
@@ -132,7 +136,7 @@ export class RoomviewComponent implements AfterViewInit {
             this.player.seek(event.currentTime)
             this.player.mute();
             this.player.play();
-            this.player.unmute();
+            this.player.unMute();
           }
           break;
         }
@@ -156,7 +160,7 @@ export class RoomviewComponent implements AfterViewInit {
   }
 
   addQueue(inputUrl) {
-    console.log(inputUrl,{ videourl: inputUrl, roomid: this.roomParams.roomid })
+    console.log(inputUrl, { videourl: inputUrl, roomid: this.roomParams.roomid })
     this.socket.emit('loadVideo', { videourl: inputUrl, roomid: this.roomParams.roomid })
 
     // console.log(inputUrl)
@@ -172,10 +176,11 @@ export class RoomviewComponent implements AfterViewInit {
   _observeVideoUpdate() {
     this.player.mute();
     this.player.play()
-    this.player.unmute();
+    this.player.unMute();
     this.player.on('timeupdate', currentTime => {
-      console.log(currentTime)
       if (this.myroom.musicowner.id == this.myclientid) {
+        console.log(currentTime)
+
         this.socket.emit('updateVideo', { type: 10, currentTime, roomid: this.roomParams.roomid });
       }
     });
