@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     const roomPayload = {
       id: roomid
     }
+
     this.socket.emit('createRoom', roomPayload );
 
     this.router.navigate([`room/${roomid}`], {
