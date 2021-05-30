@@ -87,7 +87,8 @@ export class RoomviewComponent implements AfterViewInit {
         this.player.unMute();
       })
 
-    if (window.history.state && !window.history.state.owner) {
+    if (window.history.state && window.history.state.owner) {
+      this.tapume = false;
     }
 
     const player = new YTPlayer(this.playerElement.nativeElement, {
