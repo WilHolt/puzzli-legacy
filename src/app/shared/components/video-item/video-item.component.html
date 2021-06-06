@@ -1,0 +1,24 @@
+<div class="video-item-container" [class.active]="active" [ngClass]="open? 'close' :  'open' ">
+  <div class="video-item-wrapper">
+    <div class="block">
+      <div class="thumbnail">
+        <img [src]="video.thumbnail.url"  alt="">
+      </div>
+      <div class="video-info">
+        <div class="name">{{video?.title}}</div>
+        <div class="channel-name">{{video?.creator}}</div>
+      </div>
+    </div>
+    <div class="time">
+      <pzl-icon-text>
+        <pzl-icon url="assets/clock.svg">
+        </pzl-icon>
+        <span>{{video?.duration}}</span>
+      </pzl-icon-text>
+    </div>
+    <div class="actions">
+      .
+
+    </div>
+  </div>
+</div>

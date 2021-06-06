@@ -1,52 +1,106 @@
-.container{
+:host .expansion-wrapper{
+  color: #c4c4c4;
+}
+.container {
   height: calc(100vh - 80px) !important;
-
+  color: #c4c4c4;
   display: flex;
-  .content{
-    background: #17171A;
+  .content {
+    background: #17171a;
     width: 100%;
     height: 100%;
     position: relative;
     overflow: hidden;
     padding: 50px;
     box-sizing: border-box;
-    .player-controllers{
+    .player-controllers {
       position: absolute;
     }
-    .player{
-        width: 100% !important;
-        height: 100% !important;
+    .player {
+      width: 100% !important;
+      height: 100% !important;
     }
   }
-  .sidenav{
+  .sidenav {
     width: 1000px;
-    background: #17171A;
+    background: #17171a;
+    color: #c4c4c4;
+    padding: 50px;
+    pzl-expansion-panel{
+      border-radius: 30px;
+    }
+    div.header-wrapper,
+    .content-wrapper {
+      background: #1c1d1f;
+      border: 1px solid #242424;
+    }
+    .header-wrapper {
+      .next-video {
+        .title {
+          margin: 10px;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 108%;
+          /* or 15px */
+        }
+      }
+    }
+    .content-wrapper {
+      // padding: 0 15px 15px 15px;
+      border-top: none;
+      max-height: 408px;
+      overflow: auto;
+      scrollbar-color: #48F077 rgba(#8c8c8c, 7%);
+      scrollbar-width: thin;
 
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: rgba(#8c8c8c, 7%);
+        margin: 16px;
+        border-radius: 100px;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: #48F077;
+        height: 93px;
+        border-radius: 100px;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #48F077;
+      }
+    }
   }
 }
-.player{
+.player {
   width: 100% !important;
 }
 
-
-.footer-bar{
-  background: #1C1D1F;
+.footer-bar {
+  background: #1c1d1f;
   height: 80px;
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
-  .input-popup{
+  .input-popup {
   }
 }
 
-.tapume{
+.tapume {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0, 0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
-  top: 0
+  top: 0;
 }

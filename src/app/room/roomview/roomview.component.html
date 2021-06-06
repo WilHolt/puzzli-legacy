@@ -4,6 +4,27 @@
     frameborder="0" allow="autoplay"></div>
   </div>
   <div class="sidenav">
+    <pzl-expansion-panel *ngIf="myroom?.playlist.length > 0"open="true">
+      <pzl-expansion-panel-header  (click)="playlistOpen = !playlistOpen">
+        <div class="header-wrapper">
+          <div class="next-video">
+            <div class="title">
+              <span>{{playlistOpen ? 'Playlist' : 'Próximo Video'}}</span>
+            </div>
+            <app-video-item  [video]="myroom?.playlist[0]" [open]="playlistOpen"></app-video-item>
+          </div>
+        </div>
+      </pzl-expansion-panel-header>
+      <pzl-expansion-panel-content>
+        <div class="content-wrapper">
+          <ng-container *ngFor="let video of myroom?.playlist">
+            <app-video-item [video]="video" (click)="playVideo(video.url)" ></app-video-item>
+          </ng-container>
+        </div>
+
+      </pzl-expansion-panel-content>
+    </pzl-expansion-panel>
+
     <div class="player-controllers">
       <ul>
         <li *ngFor="let video of myplaylist">

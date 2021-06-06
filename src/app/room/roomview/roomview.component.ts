@@ -3,7 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 // import YouTubeplayer from 'youtube-player';
 import * as YTPlayer from 'yt-player'
-
+export interface Music {
+  title: string;
+  thumbnail: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  creator: string;
+  duration: any;
+}
 interface Room {
   roomid: string;
   roomowner?: {
@@ -11,7 +20,7 @@ interface Room {
   };
   playing?: string;
   users: any[];
-  playlist?: any;
+  playlist?: Music[];
   musicowner?: {
     id: string;
   };
@@ -19,6 +28,7 @@ interface Room {
     currentTime: number;
   };
 }
+
 @Component({
   selector: 'app-roomview',
   templateUrl: './roomview.component.html',
@@ -37,6 +47,7 @@ export class RoomviewComponent implements AfterViewInit {
   myplaylist: any;
   roomParams;
 
+  playlistOpen = true;
 
 
   player;
@@ -69,25 +80,25 @@ export class RoomviewComponent implements AfterViewInit {
     })
 
     this.socket.on('connectedRoom', ({ room, clientid }) => {
-        this.myroom = room;
-        this.myclientid = clientid;
-        console.log(room, clientid)
-        const play: HTMLElement= document.querySelector('.content');
-        console.log( this.playerElement.nativeElement)
-        play.click()
-        const doc = document.createElement('button')
-        doc.click();
-        this.playerElement.nativeElement.click();
-        const featurePolicy = this.player
-        console.log(featurePolicy)
-        // featurePolicy.allowsFeature("play()")
+      this.myroom = room;
+      this.myclientid = clientid;
+      console.log(room, clientid)
+      const play: HTMLElement = document.querySelector('.content');
+      console.log(this.playerElement.nativeElement)
+      play.click()
+      const doc = document.createElement('button')
+      doc.click();
+      this.playerElement.nativeElement.click();
+      const featurePolicy = this.player
+      console.log(featurePolicy)
+      // featurePolicy.allowsFeature("play()")
 
-        this.player.load(room.playing, 1, room.nowPlaying.currentTime);
-        // this.player.seek(room.nowPlaying.currentTime);
-        this.player.mute();
-        this.player.play();
-        this.player.unMute();
-      })
+      this.player.load(room.playing, 1, room.nowPlaying.currentTime);
+      // this.player.seek(room.nowPlaying.currentTime);
+      this.player.mute();
+      this.player.play();
+      this.player.unMute();
+    })
 
     if (window.history.state && window.history.state.owner) {
       this.tapume = false;
@@ -102,7 +113,7 @@ export class RoomviewComponent implements AfterViewInit {
       playerVars: {
         autoplay: 1,
         loop: 1,
-        mute:0, // N.B. here the mute settings.,
+        mute: 0, // N.B. here the mute settings.,
         origin: 'http://localhost:4200/'
       },
     })
@@ -129,8 +140,8 @@ export class RoomviewComponent implements AfterViewInit {
 
     })
 
-      this._observeVideoUpdate();
-      this.watchToNotOwner();
+    this._observeVideoUpdate();
+    this.watchToNotOwner();
 
     // this.player.on('playing', (event) => {
     //   console.log(this.player.getDuration()) // => 351.521
@@ -143,7 +154,11 @@ export class RoomviewComponent implements AfterViewInit {
 
     //   // this.onplayerStateChange(event);
     // })
-
+    this.socket.on('videoQueued', (playlist) => {
+      // this.myroom.playlist = playlist;
+      this.myroom  = {...this.myroom, playlist}
+      console.log(this.myroom)
+    })
   }
 
   watchToNotOwner() {
@@ -181,15 +196,17 @@ export class RoomviewComponent implements AfterViewInit {
   }
 
   addQueue(inputUrl) {
-    console.log(inputUrl, { videourl: inputUrl, roomid: this.roomParams.roomid })
-    this.socket.emit('loadVideo', { videourl: inputUrl, roomid: this.roomParams.roomid })
-
+    console.log(inputUrl, { videourl: this._getIdFromUrl(inputUrl), roomid: this.roomParams.roomid })
+    this.socket.emit('addQueue', { videoid: this._getIdFromUrl(inputUrl), roomid: this.roomParams.roomid, videourl: inputUrl })
+    this._getIdFromUrl(inputUrl);
     // console.log(inputUrl)
     // this.myplaylist.push({
     //   url: inputUrl.value,
     // })
   }
-
+  playVideo(videourl){
+    this.socket.emit('loadVideo', { videourl, roomid: this.roomParams.roomid })
+  }
   removeQueue() {
     this.myplaylist.pop();
   }
@@ -220,7 +237,7 @@ export class RoomviewComponent implements AfterViewInit {
     })
     this.player.on('playing', () => {
       if (this.myroom.musicowner.id == this.myclientid) {
-      console.log(`layed`)
+        console.log(`layed`)
         this.socket.emit('updateVideo', { type: 1, currentTime: this.player.getCurrentTime(), roomid: this.roomParams.roomid });
       }
     })
@@ -233,9 +250,15 @@ export class RoomviewComponent implements AfterViewInit {
 
   }
 
-  connect(){
+  connect() {
     this.socket.emit('connectRoom', { roomid: this.roomParams.roomid });
     this.tapume = false;
+  }
+
+  _getIdFromUrl(videoUrl) {
+    const getEntireIdQueryRegex = /(v)([\=])([\w\d_-]+)([\?\&])?/g;
+    const cleanQueryRulesRegex = /(?:v=|&)/g;
+    return videoUrl.match(getEntireIdQueryRegex)[0].replace(cleanQueryRulesRegex, '');
   }
   // onplayerStateChange(event) {
 
