@@ -1,4 +1,4 @@
-:host .expansion-wrapper{
+:host .expansion-wrapper {
   color: #c4c4c4;
 }
 .container {
@@ -26,7 +26,7 @@
     background: #17171a;
     color: #c4c4c4;
     padding: 50px;
-    pzl-expansion-panel{
+    pzl-expansion-panel {
       border-radius: 30px;
     }
     div.header-wrapper,
@@ -36,6 +36,7 @@
     }
     .header-wrapper {
       .next-video {
+        overflow: hidden;
         .title {
           margin: 10px;
           font-style: normal;
@@ -51,7 +52,7 @@
       border-top: none;
       max-height: 408px;
       overflow: auto;
-      scrollbar-color: #48F077 rgba(#8c8c8c, 7%);
+      scrollbar-color: #48f077 rgba(#8c8c8c, 7%);
       scrollbar-width: thin;
 
       &::-webkit-scrollbar {
@@ -67,14 +68,14 @@
 
       /* Handle */
       &::-webkit-scrollbar-thumb {
-        background: #48F077;
+        background: #48f077;
         height: 93px;
         border-radius: 100px;
       }
 
       /* Handle on hover */
       &::-webkit-scrollbar-thumb:hover {
-        background: #48F077;
+        background: #48f077;
       }
     }
   }
@@ -103,4 +104,65 @@
   justify-content: center;
   z-index: 100;
   top: 0;
+}
+
+.pzli-playlist {
+  &-container {
+    background: #1c1d1f;
+    border: 1px solid #242424;
+    border-radius: 3px;
+  }
+  &-header {
+    &-title {
+      font-size: 14px;
+      margin: 15px;
+    }
+  }
+  &-content {
+    height: 100%;
+    max-height: 50%;
+    overflow: hidden;
+    transition: all 300ms;
+    .empty-warning{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+    }
+  }
+
+  &.open {
+    & .pzli-playlist-content {
+      max-height: 500px;
+    }
+  }
+  &.closed {
+    & .pzli-playlist-content {
+      max-height: 0 !important;
+    }
+  }
+
+}
+
+input:focus{
+  outline-color: white;
+  border-color: white;
+}
+
+
+a{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.player-placeholder{
+  position: absolute;
+width: calc(100% - 100px);
+height: calc(100% - 100px);
+background: #1c1d1f;
+border: 1px solid #242424;
+display: block;
+margin: 50px;
+top: 0;
+left: 0;
 }

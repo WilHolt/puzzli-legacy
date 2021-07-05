@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { RoomModule } from './room/room.module';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
-const config: SocketIoConfig = { url: 'https://puzzlapi2.herokuapp.com/', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:3000/', options: {} };
 @NgModule({
   declarations: [
     AppComponent,

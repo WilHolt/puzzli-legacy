@@ -12,6 +12,7 @@ export interface Music {
   };
   creator: string;
   duration: any;
+  url: string;
 }
 interface Room {
   roomid: string;
@@ -35,6 +36,7 @@ interface Room {
   styleUrls: ['./roomview.component.scss']
 })
 export class RoomviewComponent implements AfterViewInit {
+  initialized: boolean;
   tapume = true;
   isModalChangeMusicOpen = false;
 
@@ -53,6 +55,7 @@ export class RoomviewComponent implements AfterViewInit {
   player;
 
   @ViewChild('player') playerElement: ElementRef;
+  @ViewChild('inputUrl') inputUrlElement: ElementRef;
 
   constructor(
     private socket: Socket,
@@ -66,6 +69,7 @@ export class RoomviewComponent implements AfterViewInit {
   currentTime: number;
 
   ngAfterViewInit(): void {
+    this.initialized = true;
     let owner;
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
@@ -89,10 +93,6 @@ export class RoomviewComponent implements AfterViewInit {
       const doc = document.createElement('button')
       doc.click();
       this.playerElement.nativeElement.click();
-      const featurePolicy = this.player
-      console.log(featurePolicy)
-      // featurePolicy.allowsFeature("play()")
-
       this.player.load(room.playing, 1, room.nowPlaying.currentTime);
       // this.player.seek(room.nowPlaying.currentTime);
       this.player.mute();
@@ -156,7 +156,7 @@ export class RoomviewComponent implements AfterViewInit {
     // })
     this.socket.on('videoQueued', (playlist) => {
       // this.myroom.playlist = playlist;
-      this.myroom  = {...this.myroom, playlist}
+      this.myroom = { ...this.myroom, playlist }
       console.log(this.myroom)
     })
   }
@@ -195,6 +195,12 @@ export class RoomviewComponent implements AfterViewInit {
 
   }
 
+  focusInput() {
+    this.inputUrlElement.nativeElement.focus();
+    this.inputUrlElement.nativeElement.scrollIntoView();
+
+  }
+
   addQueue(inputUrl) {
     console.log(inputUrl, { videourl: this._getIdFromUrl(inputUrl), roomid: this.roomParams.roomid })
     this.socket.emit('addQueue', { videoid: this._getIdFromUrl(inputUrl), roomid: this.roomParams.roomid, videourl: inputUrl })
@@ -204,7 +210,7 @@ export class RoomviewComponent implements AfterViewInit {
     //   url: inputUrl.value,
     // })
   }
-  playVideo(videourl){
+  playVideo(videourl) {
     this.socket.emit('loadVideo', { videourl, roomid: this.roomParams.roomid })
   }
   removeQueue() {
@@ -225,6 +231,7 @@ export class RoomviewComponent implements AfterViewInit {
     this.player.on('stateChange', state => {
       console.log('state', state)
       if (this.myroom.musicowner.id == this.myclientid) { }
+      console.log(state)
       // this.socket.emit('updateVideo', { type: 10, currentTime, roomid: this.roomParams.roomid });
     });
     this.player.on('paused', () => {
@@ -241,9 +248,18 @@ export class RoomviewComponent implements AfterViewInit {
         this.socket.emit('updateVideo', { type: 1, currentTime: this.player.getCurrentTime(), roomid: this.roomParams.roomid });
       }
     })
-    this.player.on('ended', () => {
+    this.player.on('ended', e => {
       if (this.myroom.musicowner.id == this.myclientid) {
+        console.log(e)
         this.socket.emit('updateVideo', { type: 4, currentTime: this.player.getCurrentTime(), roomid: this.roomParams.roomid });
+        if (this.myroom.playlist.length > 1) {
+          this.socket.emit('nextVideo', { roomid: this.myroom.roomid, videourl: this.myroom.playlist[0].url })
+        } else {
+          this.socket.emit('clearPlaylist', { roomid: this.myroom.roomid })
+          this.myroom.playlist = [];
+          this.myroom.playing = '';
+          this.myroom.nowPlaying.currentTime = 0;
+        }
 
       }
     })
