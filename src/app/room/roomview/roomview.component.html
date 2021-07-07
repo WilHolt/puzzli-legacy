@@ -6,7 +6,8 @@
       allow="autoplay"></div>
   </div>
   <div class="sidenav">
-    <div class="pzli-playlist" [class.open]="myroom?.playlist.length > 0 &&  playlistOpen"
+    <p>Usuarios Online <span>{{this.myroom?.users?.length}}</span></p>
+    <div class="pzli-playlist" #playlist [class.open]="myroom?.playlist.length > 0 &&  playlistOpen"
       [class.closed]="!playlistOpen ">
       <div class="pzli-playlist-container">
         <div class="pzli-playlist-header" (click)="playlistOpen = !playlistOpen">
@@ -30,13 +31,10 @@
         </div>
       </div>
     </div>
-
-    <div class="player-controllers">
-      <ul>
-        <li *ngFor="let video of myplaylist">
-          {{video.url}}
-        </li>
-      </ul>
+    <div #chatbox class="pzli-chatbox-container"
+    [class.playlistfull]="myroom?.playlist?.length >= 4">
+      <div #chatboxwrapper class="pzli-chatbox-wrapper">
+      </div>
     </div>
   </div>
 </div>

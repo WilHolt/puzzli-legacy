@@ -56,6 +56,9 @@ export class RoomviewComponent implements AfterViewInit {
 
   @ViewChild('player') playerElement: ElementRef;
   @ViewChild('inputUrl') inputUrlElement: ElementRef;
+  @ViewChild('chatbox') chatboxElement: ElementRef;
+  @ViewChild('chatboxwrapper') chatboxwrapperElement: ElementRef;
+  @ViewChild('playlist') playlistElement: ElementRef;
 
   constructor(
     private socket: Socket,
@@ -83,10 +86,21 @@ export class RoomviewComponent implements AfterViewInit {
       this.myclientid = room.roomowner.id;
     })
 
-    this.socket.on('connectedRoom', ({ room, clientid }) => {
+    this.socket.on('userDisconnectedServer', (room: Room) => {
       this.myroom = room;
-      this.myclientid = clientid;
-      console.log(room, clientid)
+    })
+
+    this.socket.on('connectedRoomServer', ({room,  user }) => {
+      console.log('connected user', user.nickname)
+      const text = document.createElement('p');
+      text.innerText = user.nickname + ' entrou na sala!';
+      this.chatboxwrapperElement.nativeElement.appendChild(text);
+      this.myroom = room;
+    })
+
+    this.socket.on('connectedRoom', ({ room, user }) => {
+      this.myroom = room;
+      this.myclientid = user.id;
       const play: HTMLElement = document.querySelector('.content');
       console.log(this.playerElement.nativeElement)
       play.click()
@@ -99,6 +113,7 @@ export class RoomviewComponent implements AfterViewInit {
       this.player.play();
       this.player.unMute();
     })
+
 
     if (window.history.state && window.history.state.owner) {
       this.tapume = false;
