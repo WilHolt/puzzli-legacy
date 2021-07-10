@@ -9,16 +9,17 @@
   box-sizing: border-box;
 
   .login-container {
-    background: #1c1d1f;
+    background: #1B1B21;
     width: 100%;
     height: 100%;
     margin: auto 25%;
-    box-shadow: rgba(0, 0%, 0%, 0.15);
-    border-radius: 32px;
+    box-shadow:0 0px 2px 12px rgb(0 0 0 / 2%);
+    border-radius: 8px;
+    max-width: 540px;
     .login-wrapper {
       display: flex;
       flex-direction: column;
-      margin: 50px;
+      padding: 50px;
       box-sizing: border-box;
       align-items: center;
       justify-content: center;
@@ -30,10 +31,11 @@ a.pzl-btn {
   background: #48f077;
   padding: 15px 20px;
   border: none;
-  color: white;
+  color: #23232A;
   width: fit-content;
   border-radius: 8px;
   cursor: pointer;
+  font-weight: 600 ;
 }
 .createRoom {
   width: 100%;
@@ -51,13 +53,21 @@ a.pzl-btn {
   line-height: 29px;
   color: #424242;
 }
+.pzli-input-group{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  label{
+    margin-bottom:16px;
+  }
+}
 
 input {
   // outline: #696969 solid 1px;
   outline: none;
   width: 100%;
-  background: #17171a;
-  border: 1px solid #292929;
+  background: #23232A;
+  border: 1px solid #2E2E3C;
   box-sizing: border-box;
   border-radius: 8px;
   padding: 10px;
@@ -66,6 +76,32 @@ input {
   font-size: 16px;
   line-height: 19px;
   /* identical to box height */
+  color: #cecece;
+  margin-bottom: 52px
+}
+input:focus{
+  border: 1px solid rgba(72, 240, 119, 0.1);
 
-  color: #424242;
+}
+
+.pzli-text-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 379px;
+  .title{
+    color: #BCBBC9;
+    margin: 0;
+    margin-bottom: 8px;
+
+  }
+  .title, .copy{
+  }
+  .copy{
+    margin: 0;
+    margin-bottom: 22px;
+    color:#818394;
+  }
 }

@@ -2,9 +2,13 @@
   <div class="content">
     <div *ngIf="this.myroom == undefined || !this.myroom?.playing " class="player-placeholder">
     </div>
-    <div width="100%" height="100%" class="player" #player id="ytplayer" type="text/html" frameborder="0"
-      allow="autoplay"></div>
+    <div class="player-container">
+      <div width="100%" height="100%" class="player" #player id="ytplayer" type="text/html" frameborder="0"
+        allow="autoplay"></div>
+    </div>
   </div>
+
+
   <div class="sidenav">
     <p>Usuarios Online <span>{{this.myroom?.users?.length}}</span></p>
     <div class="pzli-playlist" #playlist [class.open]="myroom?.playlist.length > 0 &&  playlistOpen"
@@ -19,8 +23,7 @@
         <div class="pzli-playlist-content">
           <div class="empty-warning" *ngIf="myroom?.playlist && playlistOpen && !myroom?.playlist?.length">
             <p>Playlist Vazia, adicione uma musica</p>
-            <a (click)="focusInput()"
-             > Adicionar Musica</a>
+            <a (click)="focusInput()"> Adicionar Musica</a>
 
           </div>
           <div class="content-wrapper">
@@ -31,25 +34,22 @@
         </div>
       </div>
     </div>
-    <div #chatbox class="pzli-chatbox-container"
-    [class.playlistfull]="myroom?.playlist?.length >= 4">
+
+
+    <div #chatbox class="pzli-chatbox-container" [class.playlistfull]="myroom?.playlist?.length >= 4">
       <div #chatboxwrapper class="pzli-chatbox-wrapper">
       </div>
     </div>
   </div>
 </div>
 <div class="footer-bar">
-  <button
-    (click)="addQueue(inputUrl.value);
+  <button (click)="addQueue(inputUrl.value);
     inputUrl.value = '' ;
     isModalChangeMusicOpen = !isModalChangeMusicOpen">
     Adicionar Musica
   </button>
   <!-- <div *ngIf="isModalChangeMusicOpen" class="input-popup"> -->
-  <input
-  style="width: 40%; margin-right: 10px;"
-  #inputUrl type="text"
-  placeholder="Video Url ou ID">
+  <input style="width: 40%; margin-right: 10px;" #inputUrl type="text" placeholder="Video Url ou ID">
   <!-- </div> -->
 
   <div class="nowplaying">

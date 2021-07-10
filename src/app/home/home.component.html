@@ -1,11 +1,19 @@
 <div class="home">
- <div class="login-container">
-   <div class="login-wrapper">
-    <button class="createRoom" (click)="createRoom()"> Criar Sala</button>
-    <p class="divider">ou</p>
-    <input type="text" placeholder="ID DA SALA">
-    <button class="goToRoom"> entrar em sala</button>
+  <div class="login-container">
+    <div class="login-wrapper">
+      <div class="pzli-text-wrapper">
+        <h1 class="title">Crie seu Canal</h1>
+        <p class="copy">
+          Crie seu canal para curtir musica boa
+          e fazer uma festa com seus amigos
+        </p>
+      </div>
+      <div class="pzli-input-group">
+        <label for="roomname">Nome da Sala</label>
+        <input type="text" name="roomname" placeholder="Nome da Sala">
+      </div>
+      <button class="createRoom" (click)="createRoom()"> Criar Sala</button>
 
-   </div>
- </div>
+    </div>
+  </div>
 </div>
