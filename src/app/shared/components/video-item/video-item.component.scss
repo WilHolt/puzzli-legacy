@@ -1,67 +1,118 @@
-.video-item-container {
-  cursor: pointer;
-  &:hover, &.active{
-    background: rgba(255,255,255, 0.02);
-  }
-  &.open {
-    .video-item-wrapper {
-      height: 50px;
-      padding: 15px 15px;
+:host(.isDragging) {
+  .video-item-container {
+    background: #1b1b21;
+    border: 0.5px solid #393939;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-right: none;
+    .drag-icon {
+      display: block !important;
+      height: 24px;
+      align-self: center;
+    }
+    .block {
+      .thumbnail {
+        padding-left: 0;
+      }
     }
   }
-  &.close {
-    .video-item-wrapper {
-      height: 0;
-       padding: 0;
+}
 
+.video-item-container {
+  cursor: pointer;
+  margin-bottom: 10px;
+  border: 0.5px solid transparent;
+  &:hover,
+  &.active {
+    background: #1b1b21;
+    border: 0.5px solid #393939;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-right: none;
+    .video-item-wrapper {
+      height: 100%;
+
+      .block {
+        .thumbnail {
+          padding-left: 0;
+        }
+      }
+      .drag-icon {
+        display: block;
+      }
     }
   }
   .video-item-wrapper {
+    padding: 15px 0 12px 25px;
+  }
+
+  .video-item-wrapper {
     display: flex;
-    height: 50px;
     overflow: hidden;
     transition: 300ms all;
     justify-content: space-between;
-    padding: 15px 0;
+    padding: 16px ​0 15px 15px;
 
-    .block{
+    .drag-icon {
+      display: none;
+      height: 24px;
+      margin-right: 25px;
+      align-self: center;
+    }
+    .block {
       display: flex;
 
       .thumbnail {
-        height: 100%;
-        width: 100px;
-        max-height: 50px;
-        background: red;
+        height: 95px;
+        width: 150px;
         margin-right: 10px;
-        img{
+        border-radius: 4px;
+        padding-left: 49px;
+        img {
           width: 100%;
           height: 100%;
+          border-radius: 4px;
         }
       }
       .video-info {
         display: flex;
         flex-direction: column;
-        justify-content:space-between;
+        max-width: 230px;
+
         .name {
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 20px;
+          letter-spacing: 0em;
+          text-align: left;
+
+          color: #c4c4c4;
+        }
+        .channel-name {
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 16px;
+          letter-spacing: 0em;
+          text-align: left;
+
+          color: #8e96a1;
+          /* or 12px */
+        }
+        .time {
           font-style: normal;
           font-weight: 600;
           font-size: 12px;
           line-height: 100%;
         }
-        .channel-name {
-          font-style: normal;
-          font-weight: normal;
-          font-size: 12px;
-          line-height: 100%;
-          /* or 12px */
-        }
-        .time{
-          font-style: normal;
-font-weight: 600;
-font-size: 12px;
-line-height: 100%;
-        }
       }
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
     }
   }
 }

@@ -1,3 +1,38 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$puzzli-primary: mat-palette($mat-indigo);
+$puzzli-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$puzzli-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$puzzli-theme: mat-light-theme((
+  color: (
+    primary: $puzzli-primary,
+    accent: $puzzli-accent,
+    warn: $puzzli-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($puzzli-theme);
+
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 body {
@@ -6,19 +41,21 @@ body {
 button,
 a.pzl-btn {
   background: #48f077;
-  padding: 15px 20px;
+  padding: 10px;
   border: none;
   color: white;
   width: fit-content;
   border-radius: 8px;
   cursor: pointer;
+  min-width: 130px;
+  min-height: 40px;
 }
 input {
   // outline: #696969 solid 1px;
   outline: none;
   width: 100%;
-  background: #17171a;
-  border: 1px solid #292929;
+  background: #1F1F25;
+  border: 1px solid #2E2E3C;
   box-sizing: border-box;
   border-radius: 8px;
   padding: 10px;
@@ -38,3 +75,6 @@ input {
 iframe{
   position: absolute !important;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

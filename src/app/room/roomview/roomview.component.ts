@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
@@ -26,6 +27,7 @@ interface Room {
     id: string;
   };
   nowPlaying: {
+    music?: Music;
     currentTime: number;
   };
 }
@@ -40,14 +42,16 @@ export class RoomviewComponent implements AfterViewInit {
   tapume = true;
   isModalChangeMusicOpen = false;
 
-  nowPlaying = {
-    url: ``,
-    done: false
-  }
+  // nowPlaying = {
+  //   url: ``,
+  //   done: false
+  // }
   myroom: Room;
   myclientid: string;
   myplaylist: any;
   roomParams;
+
+  nowPlaying: Music;
 
   playlistOpen = true;
 
@@ -90,7 +94,13 @@ export class RoomviewComponent implements AfterViewInit {
       this.myroom = room;
     })
 
-    this.socket.on('connectedRoomServer', ({room,  user }) => {
+    this.socket.on('playlistChanged', (payload) => {
+      // console.log(playlist)
+      this.myroom.playlist = payload.playlist;
+      console.log('changed position:', payload.playlist)
+    })
+
+    this.socket.on('connectedRoomServer', ({ room, user }) => {
       console.log('connected user', user.nickname)
       const text = document.createElement('p');
       text.innerText = user.nickname + ' entrou na sala!';
@@ -137,21 +147,14 @@ export class RoomviewComponent implements AfterViewInit {
     console.log(player)
     this.player = player;
     this.player.mute()
-    // player.load('https://www.youtube.com/watch?v=irKx16vfYRs', [false]);
-    // this.player.play()
-    //
+
     this.socket.on('videoLoaded', (room: Room) => {
-      console.log(`videoLoaded`, room)
       this.myroom = { ...this.myroom, ...room }
-      console.log(`updatedRoom`, this.myroom)
-      // this.player.load(room.playing);
       this.player.mute();
       this.player.load(room.playing, 1, 0);
-      // this.player.seek(room.nowPlaying.currentTime);
       this.player.play();
       this.player.unMute();
-      console.log('check', this.myroom.musicowner.id, this.myclientid);
-
+      this.nowPlaying = room.playlist[0];
 
     })
 
@@ -217,16 +220,12 @@ export class RoomviewComponent implements AfterViewInit {
   }
 
   addQueue(inputUrl) {
-    console.log(inputUrl, { videourl: this._getIdFromUrl(inputUrl), roomid: this.roomParams.roomid })
     this.socket.emit('addQueue', { videoid: this._getIdFromUrl(inputUrl), roomid: this.roomParams.roomid, videourl: inputUrl })
     this._getIdFromUrl(inputUrl);
-    // console.log(inputUrl)
-    // this.myplaylist.push({
-    //   url: inputUrl.value,
-    // })
+
   }
-  playVideo(videourl) {
-    this.socket.emit('loadVideo', { videourl, roomid: this.roomParams.roomid })
+  playVideo(videourl, music?) {
+    this.socket.emit('loadVideo', { videourl, roomid: this.roomParams.roomid, music })
   }
   removeQueue() {
     this.myplaylist.pop();
@@ -265,9 +264,8 @@ export class RoomviewComponent implements AfterViewInit {
     })
     this.player.on('ended', e => {
       if (this.myroom.musicowner.id == this.myclientid) {
-        console.log(e)
         this.socket.emit('updateVideo', { type: 4, currentTime: this.player.getCurrentTime(), roomid: this.roomParams.roomid });
-        if (this.myroom.playlist.length > 1) {
+        if (this.myroom.playlist.length > 0) {
           this.socket.emit('nextVideo', { roomid: this.myroom.roomid, videourl: this.myroom.playlist[0].url })
         } else {
           this.socket.emit('clearPlaylist', { roomid: this.myroom.roomid })
@@ -300,4 +298,19 @@ export class RoomviewComponent implements AfterViewInit {
   //     this.nowPlaying
   //   }
   // }
+
+  drop(event: CdkDragDrop<any>) {
+    moveItemInArray(this.myroom.playlist, event.previousIndex, event.currentIndex);
+    this.socket.emit('changeVideoPosition', {roomid: this.myroom.roomid, playlist: this.myroom.playlist });
+  }
+
+  dragStart(e) {
+    // console.log(e, 'release')
+    const preview = new ElementRef<HTMLElement>(document.querySelector('.cdk-drag.cdk-drag-preview'));
+    this.renderer.addClass(preview.nativeElement.firstChild, 'isDragging')
+  }
+  dragEnd(e) {
+    // console.log(e)
+    // this.renderer.removeClass(e.source.element.nativeElement.firstChild, 'isDragging' )
+  }
 }
