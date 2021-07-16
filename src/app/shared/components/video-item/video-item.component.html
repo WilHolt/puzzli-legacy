@@ -1,4 +1,7 @@
-<div class="video-item-container" [class.active]="active" [ngClass]="open? 'close' :  'open' ">
+<div class="video-item-container"
+  [class.active]="active"
+  [class.nothover]="nothover"
+  [ngClass]="open? 'close' : 'open' ">
   <div class="video-item-wrapper">
     <div class="block">
       <div class="drag-icon" >

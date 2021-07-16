@@ -18,11 +18,11 @@
   }
 }
 
-.video-item-container {
+.video-item-container{
   cursor: pointer;
   margin-bottom: 10px;
   border: 0.5px solid transparent;
-  &:hover,
+  &:not(.nothover):hover,
   &.active {
     background: #1b1b21;
     border: 0.5px solid #393939;

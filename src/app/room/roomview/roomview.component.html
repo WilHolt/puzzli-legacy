@@ -37,13 +37,13 @@
     <ng-containter *ngIf="myroom?.nowPlaying?.music">
       <div class="pzli-current-track">
         <h1 class="pzli-current-track-title">Tocando Agora</h1>
-        <app-video-item [video]="myroom?.nowPlaying?.music" [open]="playlistOpen">
+        <app-video-item [video]="myroom?.nowPlaying?.music" [open]="playlistOpen" [nothover]="true">
           <img dragHandler cdkDragHandle src="assets/Dots24px.svg" alt="">
         </app-video-item>
       </div>
     </ng-containter>
 
-    <div class="pzli-playlist" #playlist [class.open]="myroom?.playlist.length > 0 &&  playlistOpen"
+    <div class="pzli-playlist" #playlist [class.open]="myroom?.playlist?.length > 0 &&  playlistOpen"
       [class.closed]="!playlistOpen " [class.no-current-track]="!nowPlaying">
       <div class="pzli-playlist-container">
         <div class="pzli-playlist-header">
@@ -59,7 +59,7 @@
             (cdkDropListDropped)="drop($event)">
             <div *ngFor="let video of myroom?.playlist" cdkDrag (cdkDragStarted)="dragStart($event)"
               (cdkDragEnded)="dragEnd($event)" [cdkDragPreviewClass]="'isDragging'" [cdkDragLockAxis]="'y'">
-              <app-video-item [video]="video" (click)="playVideo(video.url, video)">
+              <app-video-item [video]="video">
                 <img dragHandler cdkDragHandle src="assets/Dots24px.svg" alt="">
                 <!-- <img dragHandler cdkDragHandle src=".../../../../../assets/Dots24px.svg" alt=""> -->
 

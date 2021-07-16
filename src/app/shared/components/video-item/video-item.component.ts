@@ -9,6 +9,7 @@ import { Music } from 'src/app/room/roomview/roomview.component';
 export class VideoItemComponent implements OnInit {
  @Input() open : boolean;
  @Input() active : boolean;
+ @Input() nothover? : boolean;
  @Input() video: Music
   constructor() { }
 

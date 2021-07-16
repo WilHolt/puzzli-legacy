@@ -95,9 +95,7 @@ export class RoomviewComponent implements AfterViewInit {
     })
 
     this.socket.on('playlistChanged', (payload) => {
-      // console.log(playlist)
-      this.myroom.playlist = payload.playlist;
-      console.log('changed position:', payload.playlist)
+      this.myroom.playlist = payload;
     })
 
     this.socket.on('connectedRoomServer', ({ room, user }) => {
