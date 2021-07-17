@@ -3,7 +3,7 @@
     <div class="users">
       <!-- <h1>Usuarios online na sala: {{myroom?.name}}</h1> -->
       <div class="user-container">
-        <h1>Usuarios online na sala: Puzzli</h1>
+        <h1 class="online-users-title">Puzzli</h1>
         <div class="users-wrapper">
           <ng-container *ngFor="let user of myroom?.users">
             <img class="avatar" src="assets/avatar.svg" alt="">
@@ -11,12 +11,12 @@
         </div>
       </div>
       <div class="invite-wrapper">
-        <button>Convidar</button>
+        <button>Invite</button>
       </div>
     </div>
     <div *ngIf="this.myroom == undefined || !this.myroom?.playing " class="player-placeholder">
     </div>
-    <h1> Tocando Agora</h1>
+    <!-- <h1> Current Playing</h1> -->
     <div class="player-container">
       <div width="100%" height="100%" class="player" #player id="ytplayer" type="text/html" frameborder="0"
         allow="autoplay"></div>
@@ -29,14 +29,14 @@
       <button (click)="addQueue(inputUrl.value);
         inputUrl.value = '' ;
         isModalChangeMusicOpen = !isModalChangeMusicOpen">
-        Adicionar Musica
+        Add Video
       </button>
       <input style="width: 100%; margin-right: 10px;" #inputUrl type="text" placeholder="ex: youtube.com/musicadowill">
     </div>
 
     <ng-containter *ngIf="myroom?.nowPlaying?.music">
       <div class="pzli-current-track">
-        <h1 class="pzli-current-track-title">Tocando Agora</h1>
+        <h1 class="pzli-current-track-title">Current Playing</h1>
         <app-video-item [video]="myroom?.nowPlaying?.music" [open]="playlistOpen" [nothover]="true">
           <img dragHandler cdkDragHandle src="assets/Dots24px.svg" alt="">
         </app-video-item>
@@ -47,12 +47,12 @@
       [class.closed]="!playlistOpen " [class.no-current-track]="!nowPlaying">
       <div class="pzli-playlist-container">
         <div class="pzli-playlist-header">
-          <h1 class="pzli-playlist-header-title">Próximos Videos</h1>
+          <h1 class="pzli-playlist-header-title">Next Videos</h1>
         </div>
         <div class="pzli-playlist-content">
           <div class="empty-warning" *ngIf="myroom?.playlist && playlistOpen && !myroom?.playlist?.length">
-            <p>Playlist Vazia, adicione uma musica</p>
-            <a (click)="focusInput()"> Adicionar Musica</a>
+            <p>Empty Playlist, please add a Video.</p>
+            <a (click)="focusInput()"> Add Video</a>
 
           </div>
           <div class="content-wrapper" cdkDropList class="example-list" class="example-list"

@@ -11,9 +11,8 @@
     width: 100%;
     position: relative;
     overflow: hidden;
-    margin: 32px;
+    margin: 35px;
     box-sizing: border-box;
-    overflow: auto;
     .player-controllers {
       position: absolute;
     }
@@ -25,12 +24,11 @@
   .sidenav {
     display: flex;
     flex-direction: column;
-    width: 600px;
-    min-width: 600px;
+    min-width: 500px;
     background: #17171a;
     color: #c4c4c4;
-    padding: 0 0 32px 32px;
-    padding-bottom: 32px;
+    padding: 0 0 55px 0;
+    padding-bottom: 20px;
 
     pzl-expansion-panel {
       border-radius: 30px;
@@ -70,7 +68,7 @@
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
-  padding: 32px;
+  padding: 40px 10px 0;
   input {
     max-width: 353px;
   }
@@ -114,14 +112,14 @@
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    background: #48f077;
+    background: linear-gradient(89.44deg, #10C1C6 -128.81%, #5C3CCC 119.24%);
     height: 93px;
     border-radius: 100px;
   }
 
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
-    background: #48f077;
+    background: linear-gradient(89.44deg, #10C1C6 -128.81%, #5C3CCC 119.24%);
   }
 
   .pzli-chatbox-wrapper {
@@ -154,7 +152,6 @@
   &-header {
     &-title {
       font-size: 18px;
-      font-style: italic;
       font-weight: 500;
       line-height: 20px;
       letter-spacing: 0px;
@@ -167,6 +164,8 @@
     overflow: hidden;
     transition: all 300ms;
     flex: 1;
+    padding: 20px;
+
     .empty-warning {
       display: flex;
       flex-direction: column;
@@ -202,6 +201,7 @@ a {
   width: 100%;
   padding-bottom: 56%;
   position: absolute;
+  margin-top: 5px;
 }
 
 .cdk-drag-placeholder {
@@ -236,14 +236,14 @@ a {
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    background: #48f077;
+    background: linear-gradient(89.44deg, #10C1C6 -128.81%, #5C3CCC 119.24%);
     height: 93px;
     border-radius: 100px;
   }
 
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
-    background: #48f077;
+    background: linear-gradient(89.44deg, #10C1C6 -128.81%, #5C3CCC 119.24%);
   }
 }
 
@@ -264,13 +264,24 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  h1{
+  h1 {
     margin-bottom: 0 !important;
   }
   .avatar {
-    margin: 10px;
+    margin: 12px 10px 10px;
+
   }
-  .invite-wrapper{
-    margin-top: 15px;
+  .invite-wrapper {
+    margin-top: 10px;
   }
 }
+
+h1 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #8e96a1;
+}
+

@@ -40,7 +40,7 @@ body {
 }
 button,
 a.pzl-btn {
-  background: #48f077;
+  background: linear-gradient(89.44deg, #10C1C6 -128.81%, #5C3CCC 119.24%);
   padding: 10px;
   border: none;
   color: white;
@@ -49,6 +49,7 @@ a.pzl-btn {
   cursor: pointer;
   min-width: 130px;
   min-height: 40px;
+  border: 1px solid linear-gradient(89.44deg, #10C1C6 -128.81%, #5C3CCC 119.24%);
 }
 input {
   // outline: #696969 solid 1px;
