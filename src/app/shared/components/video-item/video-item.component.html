@@ -15,12 +15,14 @@
       </div>
       <div class="video-info">
         <div class="name">{{video?.title}}</div>
-        <div class="channel-name">{{video?.creator}}</div>
+        <div class="channel-name">
+          <img width="20px" class="avatar" src="assets/avatar.svg" alt="">
+          {{video?.requester?.nickname}}</div>
       </div>
     </div>
     <div class="actions">
-      <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
-        <mat-icon [svgIcon]="'skip_video'"></mat-icon>
+      <button mat-icon-button *ngIf="nowPlaying" (click)="this.optionSelected.emit('skip')">
+        <img src="assets/skip-playlist-video-icon.svg" alt="">
       </button>
     </div>
   </div>

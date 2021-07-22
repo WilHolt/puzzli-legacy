@@ -6,6 +6,7 @@ import { Socket } from 'ngx-socket-io';
 import * as YTPlayer from 'yt-player'
 export interface Music {
   title: string;
+  id?: string;
   thumbnail: {
     url: string;
     width: number;
@@ -14,6 +15,7 @@ export interface Music {
   creator: string;
   duration: any;
   url: string;
+  requester?: any;
 }
 interface Room {
   roomid: string;
@@ -147,9 +149,10 @@ export class RoomviewComponent implements AfterViewInit {
     this.player.mute()
 
     this.socket.on('videoLoaded', (room: Room) => {
+      console.log('videoloaded', room)
       this.myroom = { ...this.myroom, ...room }
       this.player.mute();
-      this.player.load(room.playing, 1, 0);
+      this.player.load(room.nowPlaying.music.id, 1, 0);
       this.player.play();
       this.player.unMute();
       this.nowPlaying = room.playlist[0];
@@ -223,7 +226,7 @@ export class RoomviewComponent implements AfterViewInit {
 
   }
   playVideo(videourl, music?) {
-    this.socket.emit('loadVideo', { videourl, roomid: this.roomParams.roomid, music })
+    this.socket.emit('loadVideo', { roomid: this.roomParams.roomid, music })
   }
   removeQueue() {
     this.myplaylist.pop();
@@ -299,7 +302,7 @@ export class RoomviewComponent implements AfterViewInit {
 
   drop(event: CdkDragDrop<any>) {
     moveItemInArray(this.myroom.playlist, event.previousIndex, event.currentIndex);
-    this.socket.emit('changeVideoPosition', {roomid: this.myroom.roomid, playlist: this.myroom.playlist });
+    this.socket.emit('changeVideoPosition', { roomid: this.myroom.roomid, playlist: this.myroom.playlist });
   }
 
   dragStart(e) {
@@ -308,7 +311,18 @@ export class RoomviewComponent implements AfterViewInit {
     this.renderer.addClass(preview.nativeElement.firstChild, 'isDragging')
   }
   dragEnd(e) {
-    // console.log(e)
-    // this.renderer.removeClass(e.source.element.nativeElement.firstChild, 'isDragging' )
+  }
+
+  skipVideo(music) {
+    console.log('skip', music)
+    this.socket.emit('skipVideo', { roomid: this.myroom.roomid, music });
+
+  }
+
+  copyUrl() {
+    const textToCopy = window.location.href
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => { alert(`Link de Convite Copiado, envie para seus amigos!`) })
+      .catch((error) => { alert(`Copy failed! ${error}`) })
   }
 }

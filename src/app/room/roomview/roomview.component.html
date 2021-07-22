@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="invite-wrapper">
-        <button>Invite</button>
+        <button (click)="copyUrl()">Invite</button>
       </div>
     </div>
     <div *ngIf="this.myroom == undefined || !this.myroom?.playing " class="player-placeholder">
@@ -37,7 +37,13 @@
     <ng-containter *ngIf="myroom?.nowPlaying?.music">
       <div class="pzli-current-track">
         <h1 class="pzli-current-track-title">Current Playing</h1>
-        <app-video-item [video]="myroom?.nowPlaying?.music" [open]="playlistOpen" [nothover]="true">
+        <app-video-item
+        [video]="myroom?.nowPlaying?.music"
+        [open]="playlistOpen"
+        [nothover]="true"
+        [nowPlaying]="true"
+        (optionSelected)="skipVideo(myroom?.nowPlaying?.music)"
+        >
           <img dragHandler cdkDragHandle src="assets/Dots24px.svg" alt="">
         </app-video-item>
       </div>

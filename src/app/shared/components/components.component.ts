@@ -9,13 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ComponentsComponent implements OnInit {
 
-  constructor(  private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    this.matIconRegistry.addSvgIcon(
-      'skip_video',
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        '/assets/skip-playlist-video-icon.svg'
-      )
-    );
+  constructor( ) {
    }
 
   ngOnInit(): void {

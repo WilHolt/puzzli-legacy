@@ -41,7 +41,7 @@
     }
   }
   .video-item-wrapper {
-    padding: 15px 0 12px 25px;
+    padding: 15px 0 12px 10px;
   }
 
   .video-item-wrapper {
@@ -76,7 +76,8 @@
         display: flex;
         flex-direction: column;
         max-width: 230px;
-
+        justify-content: space-between;
+        padding-right: 10px;
         .name {
           font-size: 14px;
           font-style: normal;
@@ -97,6 +98,11 @@
 
           color: #8e96a1;
           /* or 12px */
+          display: flex;
+          align-items: center;
+          img{
+            margin-right: 10px;
+          }
         }
         .time {
           font-style: normal;

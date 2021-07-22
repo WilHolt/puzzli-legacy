@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Music } from 'src/app/room/roomview/roomview.component';
@@ -13,13 +13,11 @@ export class VideoItemComponent implements OnInit {
  @Input() active : boolean;
  @Input() nothover? : boolean;
  @Input() video: Music
- constructor(  private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-  this.matIconRegistry.addSvgIcon(
-    'skip_video',
-    this.domSanitizer.bypassSecurityTrustResourceUrl(
-      'assets/skip-playlist-video-icon.svg'
-    )
-  );
+ @Input() nowPlaying: boolean;
+
+ @Output() optionSelected = new EventEmitter<any>();
+
+ constructor() {
  }
   ngOnInit(): void {
   }

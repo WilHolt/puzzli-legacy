@@ -11,7 +11,6 @@ import {MatIconModule} from '@angular/material/icon';
   imports: [
     CommonModule,
     MatButtonModule,
-    MatIconModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports: [VideoItemComponent]
