@@ -7,7 +7,8 @@ import { RoomModule } from './room/room.module';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-const config: SocketIoConfig = { url: 'http://localhost:3000/', options: {} };
+import { environment } from 'src/environments/environment';
+const config: SocketIoConfig = { url: environment.wspath, options: {} };
 @NgModule({
   declarations: [
     AppComponent,
